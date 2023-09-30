@@ -2,7 +2,7 @@
 
 Submitted by: **Farouk Balogun**
 
-**BitFit1** is a health metrics app that allows users to track ... [TODO]
+**BitFit1** is a health metrics app that allows users to track their workout sessions.
 
 Time spent: **4** hours spent in total
 
