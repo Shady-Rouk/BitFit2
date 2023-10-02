@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                         entity.workoutTime
                     )
                 }.also { mappedList ->
+                    exerciseRecords.clear()
                     exerciseRecords.addAll(mappedList)
                     recordsAdapter.notifyDataSetChanged()
                 }
