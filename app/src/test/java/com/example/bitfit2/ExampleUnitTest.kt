@@ -1,4 +1,4 @@
-package com.example.bitfit1
+package com.example.bitfit2
 
 import org.junit.Test
 

@@ -1,28 +1,31 @@
-package com.example.bitfit1
+package com.example.bitfit2
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
 
-    private lateinit var exerciseRecordsRecyclerView: RecyclerView
+class WorkoutRecordFragment(private val activity: MainActivity) : Fragment() {
     private val exerciseRecords = mutableListOf<ExerciseRecord>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        exerciseRecordsRecyclerView = findViewById(R.id.entriesRv)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_workout_record, container, false)
+        val exerciseRecordsRecyclerView = view.findViewById<View>(R.id.workout_list) as RecyclerView
         val recordsAdapter = ExerciseRecordAdapter(exerciseRecords)
+        val context = view.context
 
         lifecycleScope.launch {
-            (application as ExerciseApplication).db.exerciseDao().getAll().collect { databaseList ->
+            (activity.application as ExerciseApplication).db.exerciseDao().getAll().collect { databaseList ->
                 databaseList.map { entity ->
                     ExerciseRecord(
                         entity.workoutName,
@@ -38,14 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         exerciseRecordsRecyclerView.adapter = recordsAdapter
-        exerciseRecordsRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        val addSessionBtn = findViewById<Button>(R.id.launchRecordBtn)
-
-        addSessionBtn.setOnClickListener {
-            // launch the detail activity
-            val intent = Intent(this, RecordActivity::class.java)
-            this.startActivity(intent)
-        }
+        exerciseRecordsRecyclerView.layoutManager = LinearLayoutManager(context)
+        return view
     }
 }
